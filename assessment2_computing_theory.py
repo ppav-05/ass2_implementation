@@ -126,18 +126,14 @@ class Lexer:
 
     def tokenise(self):
         tokens = []
-        try:
-            while (token := self.get_next_token()) is not None:
-                tokens.append(token)
-                if token.type == TokenType.EOF:
-                    break
-            
-            if self.paren_count > 0:
-                raise ParenthesisError("Missing closing parenthesis ')'")
-            elif self.paren_count < 0:
-                raise ParenthesisError("Unexpected closing parenthesis ')'")
-                
-            return tokens
-        except ParenthesisError as e:
-            print(f"Syntax Error: {e.message}")
-            return None
+        while True:
+            token = self.get_next_token()
+            tokens.append(token)
+            if token.type == TokenType.EOF:
+                break
+
+        if self.paren_count > 0:
+            raise ParenthesisError("Missing closing parenthesis ')'")
+        elif self.paren_count < 0:
+            raise ParenthesisError("Unexpected closing parenthesis ')'")
+        return tokens
