@@ -60,12 +60,6 @@ class Lexer:
         while self.current_char is not None and (self.current_char.isalnum() or self.current_char == '_'):
             self.advance()
         value = self.text[start_pos:self.pos]
-        
-        # Check for keywords
-        if value == "lambda":
-            return Token(TokenType.LAMBDA, value)
-        if value == "let":
-            return Token(TokenType.LET, value)
         return Token(TokenType.IDENTIFIER, value)
 
     def get_next_token(self) -> Token:
