@@ -1,5 +1,4 @@
 from enum import Enum
-from tracemalloc import start
 
 class TokenType(Enum):
     NUMBER = "NUMBER"
@@ -36,7 +35,7 @@ class Lexer:
         self.text = text
         self.pos = 0
         self.current_char = self.text[0] if text else None
-        self.paren_count = 0  # Track parenthesis balance
+        self.paren_count = 0
 
     def advance(self):
         self.pos += 1
@@ -75,48 +74,55 @@ class Lexer:
             if self.current_char.isalpha():
                 return self.identifier()
 
-            start_pos = self.pos
             #Operators and Parentheses
             if self.current_char == '+':
                 self.advance()
-                return Token(TokenType.PLUS, '+', start_pos)
+                return Token(TokenType.PLUS, '+')
 
-            if self.current_char == '-':
+            if self.current_char == '−':
                 self.advance()
-                return Token(TokenType.MINUS, '-', start_pos)
+                return Token(TokenType.MINUS, '−')
 
-            if self.current_char == 'x':
+            if self.current_char == '×':
                 self.advance()
-                return Token(TokenType.MULT, 'x', start_pos)
+                return Token(TokenType.MULT, '×')
 
             if self.current_char == '=':
                 self.advance()
-                return Token(TokenType.EQUALS, '=', start_pos)
+                return Token(TokenType.EQUALS, '=')
 
             if self.current_char == '(':
                 self.paren_count += 1
                 self.advance()
-                return Token(TokenType.LPAREN, '(', start_pos)
+                return Token(TokenType.LPAREN, '(')
 
             if self.current_char == ')':
                 self.paren_count -= 1
+                if self.paren_count < 0:  
+                    raise ParenthesisError("Unmatched closing parenthesis")
                 self.advance()
-                return Token(TokenType.RPAREN, ')', start_pos)
+                return Token(TokenType.RPAREN, ')')
 
             if self.current_char == 'λ':
                 self.advance()
-                return Token(TokenType.LAMBDA, 'λ', start_pos)
+                return Token(TokenType.LAMBDA, 'λ')
 
             if self.current_char == '?':
                 self.advance()
-                return Token(TokenType.CONDITIONAL, '?', start_pos)
+                return Token(TokenType.CONDITIONAL, '?')
 
-            if self.current_char == '≜':
+            if self.current_char == '≙':
                 self.advance()
-                return Token(TokenType.LET, '≜', start_pos)
+                return Token(TokenType.LET, '≙')
 
+            # Unknown character
+            unknown_char = self.current_char
             self.advance()
-            return Token(TokenType.UNKNOWN, self.current_char, start_pos)
+            return Token(TokenType.UNKNOWN, unknown_char)
+
+        if self.paren_count != 0:
+            raise ParenthesisError("Unmatched opening parenthesis")
+        return Token(TokenType.EOF, None)
 
     def tokenise(self):
         tokens = []
@@ -125,9 +131,7 @@ class Lexer:
             tokens.append(token)
             if token.type == TokenType.EOF:
                 break
-
-        if self.paren_count > 0:
-            raise ParenthesisError("Missing closing parenthesis ')'")
-        elif self.paren_count < 0:
-            raise ParenthesisError("Unexpected closing parenthesis ')'")
+        
         return tokens
+
+      
