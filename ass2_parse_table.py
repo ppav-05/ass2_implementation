@@ -68,23 +68,4 @@ class ApplicationNode(ASTNode):
         return f"Application({self.function}, {self.arguments})"
 
 class LL1Parser:
-    def __init__(self, tokens):
-        self.tokens = tokens
-        self.current_token_index = 0
-        self.current_token = tokens[0]
-    
-    def advance(self):
-        self.current_token_index += 1
-        if self.current_token_index < len(self.tokens):
-            self.current_token = self.tokens[self.current_token_index]
-    
-    def match(self, expected_type):
-        if self.current_token.type == expected_type:
-            value = self.current_token.value
-            self.advance()
-            return value
-        else:
-            raise SyntaxError(f"Expected {expected_type.name}, got {self.current_token.type.name}")
-        
-    def parse_expr(self):
-        pass
+    pass  # Implementation of the LL(1) parser goes here
