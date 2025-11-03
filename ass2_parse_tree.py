@@ -117,6 +117,7 @@ if __name__ == "__main__":
     print(f"Output: {tree5}")
 
     #Function and Expressions
+    
     #lexer6 = Lexer("(λ x x)")
     #tokens6 = lexer6.tokenise()
     #parser6 = Parse_Tree(tokens6)
@@ -130,3 +131,10 @@ if __name__ == "__main__":
     #tree7 = parser7.parse()
     #print(f"Input: (≜ y 10 y)")
     #print(f"Output: {tree7}")
+
+    #lexer8 = Lexer("((λ x (+ x 1)) 5)")
+    #tokens8 = lexer8.tokenise()
+    #parser8 = Parse_Tree(tokens8)
+    #tree8 = parser8.parse()
+    #print(f"Input: ((λ x (+ x 1)) 5)")
+    #print(f"Output: {tree8}")
