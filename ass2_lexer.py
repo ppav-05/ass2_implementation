@@ -133,8 +133,3 @@ class Lexer:
                 break
         
         return tokens
-
-if __name__ == "__main__":
-    text1 = "42"
-    lexer1 = Lexer(text1)
-    tokens1 = lexer1.tokenise()
