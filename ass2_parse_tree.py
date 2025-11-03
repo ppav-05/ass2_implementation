@@ -1,4 +1,4 @@
-from ass2_lexer import TokenType, Token
+from ass2_lexer import Lexer, TokenType, Token
 
 class Parse_Tree:
     def __init__(self, tokens):
@@ -65,3 +65,19 @@ class Parse_Tree:
             return value
         else:
             raise SyntaxError(f"Expected number or identifier, got {self.current_token}")
+
+if __name__ == "__main__":
+    lexer1 = Lexer("(+ (× 2 3) 4)")
+    tokens1 = lexer1.tokenise()
+    parser1 = Parse_Tree(tokens1)
+    tree1 = parser1.parse()
+    print(f"Input: (+ (× 2 3) 4)")
+    print(f"Output: {tree1}")
+    print()
+
+    lexer2 = Lexer("(? (= x 0) 1 0)")
+    tokens2 = lexer2.tokenise()
+    parser2 = Parse_Tree(tokens2)
+    tree2 = parser2.parse()
+    print(f"Input: (? (= x 0) 1 0)")
+    print(f"Output: {tree2}")
