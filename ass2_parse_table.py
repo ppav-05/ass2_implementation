@@ -67,5 +67,10 @@ class ApplicationNode(ASTNode):
     def __repr__(self):
         return f"Application({self.function}, {self.arguments})"
 
-class LL1Parser:
-    pass  # Implementation of the LL(1) parser goes here
+class TableDrivenLL1Parser:
+    # Implementation of the table-driven LL(1) parser that uses terminals and non-terminals from ass2_lexer.py
+    def __init__(self, tokens):
+        self.tokens = tokens
+        self.current_token_index = 0
+        self.current_token = tokens[0]
+        self.stack = []
